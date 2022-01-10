@@ -1,31 +1,22 @@
-/*
-  Streaming data from Bluetooth to internal DAC of ESP32
-  
-  Copyright (C) 2020 Phil Schatzmann
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-  You should have received a copy of the GNU General Public License
-  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-// ==> Example to use external 32 bit DAC - the 16 bit A2DP ouptut will be expanded to the indicated bits
+//    32-BIT DAC A2DP_Sink with WS2182FX and bluetooth streaming/control
 
 #include <WiFi.h>
 #include <WiFiMulti.h>
 #include <ESPmDNS.h>
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
-#include "BluetoothA2DPSink.h"
-#include "credentials.h"
-
 WiFiMulti wifiMulti;
+#include "BluetoothA2DPSink.h"
 BluetoothA2DPSink a2dp_sink;
+// this header is needed for Bluetooth Serial -> works ONLY on ESP32
+#include "BluetoothSerial.h"
+#include "credentials.h"
+// init Class:
+BluetoothSerial ESP_BT;
+int incoming;
+
+#include <WS2812FX.h>
+#include "WipItsLED.h"
 
 TaskHandle_t btStream;
 TaskHandle_t wifi_Neo;
@@ -66,17 +57,16 @@ void setup() {
     .data_in_num = I2S_PIN_NO_CHANGE
   };
   a2dp_sink.set_pin_config(my_pin_config);
-  a2dp_sink.start("chlbtproto2");  
+  a2dp_sink.start(btDeviceName);  
   for(;;){
     delay(1000);
   }
 }
 
-  void wifiTASK( void * pvParameters ){
-//  Serial.print("Task1 running on core ");
-//  Serial.println(xPortGetCoreID());
-
+void initOTA(){
+  WiFi.persistent(false);  // Disable storing WiFi settings in flash
   WiFi.mode(WIFI_STA);
+  WiFi.setHostname(espHostName);
   wifiMulti.addAP(ssid1, ssidPassphrase1);
   wifiMulti.addAP(ssid2, ssidPassphrase2);
   if(wifiMulti.run() == WL_CONNECTED) {
@@ -84,47 +74,61 @@ void setup() {
   }
   ArduinoOTA.setHostname(espHostName);
   ArduinoOTA.setPasswordHash(otaPasswordHash);
-  ArduinoOTA
-    .onStart([]() {
-      String type;
-      if (ArduinoOTA.getCommand() == U_FLASH)
-        type = "sketch";
-      else // U_SPIFFS
-        type = "filesystem";
+  ArduinoOTA.onStart([]() {
+    String type;
+    if (ArduinoOTA.getCommand() == U_FLASH)
+      type = "sketch";
+    else // U_SPIFFS
+      type = "filesystem";
 
-      // NOTE: if updating SPIFFS this would be the place to unmount SPIFFS using SPIFFS.end()
+    // NOTE: if updating SPIFFS this would be the place to unmount SPIFFS using SPIFFS.end()
 //      Serial.println("Start updating " + type);
-    })
-    .onEnd([]() {
+  })
+  .onEnd([]() {
 //      Serial.println("\nEnd");
-    })
-    .onProgress([](unsigned int progress, unsigned int total) {
+  })
+  .onProgress([](unsigned int progress, unsigned int total) {
 //      Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
-    })
-    .onError([](ota_error_t error) {
-//      Serial.printf("Error[%u]: ", error);
-//      if (error == OTA_AUTH_ERROR) Serial.println("Auth Failed");
-//      else if (error == OTA_BEGIN_ERROR) Serial.println("Begin Failed");
-//      else if (error == OTA_CONNECT_ERROR) Serial.println("Connect Failed");
-//      else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
-//      else if (error == OTA_END_ERROR) Serial.println("End Failed");
-    });
+  })
+  .onError([](ota_error_t error) {
+//  Serial.printf("Error[%u]: ", error);
+//  if (error == OTA_AUTH_ERROR) Serial.println("Auth Failed");
+//  else if (error == OTA_BEGIN_ERROR) Serial.println("Begin Failed");
+//  else if (error == OTA_CONNECT_ERROR) Serial.println("Connect Failed");
+//  else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
+//  else if (error == OTA_END_ERROR) Serial.println("End Failed");
+  });
 
   ArduinoOTA.begin();
 
 //  Serial.println("Ready");
 //  Serial.print("IP address: ");
 //  Serial.println(WiFi.localIP());
+}
+
+  void wifiTASK( void * pvParameters ){
+//  Serial.print("Task1 running on core ");
+//  Serial.println(xPortGetCoreID());
+
+  initOTA();
+  ESP_BT.begin("Chl@B$_WipIts");    //    Initialize Bluetooth and name your Bluetooth interface -> will show up on your phone
+  ws2812fx.init();
+  ws2812fx.setBrightness(30);
+  ws2812fx.setSpeed(1000);
+  ws2812fx.setColor(0x007BFF);
+  ws2812fx.setMode(FX_MODE_STATIC);
+  ws2812fx.start();
   
   for(;;){
   if(wifiMulti.run() != WL_CONNECTED) {
       delay(1000);
     }
+    ws2812fx.service();
     ArduinoOTA.handle();
-    delay(1000);
+//    btCommandIncoming();
   }
 }
 
 void loop() {
-  
-}
+    //    Move along. Nothing to see here.
+  }
