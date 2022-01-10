@@ -1,0 +1,37 @@
+menu "Mike's LED App Config"
+    config ESP_WIFI_SSID
+        string "WiFi SSID"
+        default "chlabs_bot"
+        help
+            SSID (network name) for the example to connect to.
+
+    config ESP_WIFI_PASSWORD
+        string "WiFi Password"
+        default "chlabsrobotseverywhere"
+        help
+            WiFi password (WPA or WPA2) for the example to use.
+
+    config ESP_MAXIMUM_RETRY
+        int "Maximum retry"
+        default 5
+        help
+            Set the Maximum retry to avoid station reconnecting to the AP unlimited when the AP is really inexistent.
+
+    config RMT_TX_GPIO
+        int "RMT TX GPIO"
+        default 48
+        help
+            Set the GPIO number used for transmitting the RMT signal.
+
+    config STRIP_LED_NUMBER
+        int "Number of LEDS in a strip"
+        default 1
+        help
+            A single RGB strip contains several LEDs.
+
+    config REFRESH_DELAY
+        int "Milliseconds to wait for next color"
+        default 1000
+        help
+            Delay to refresh color change - 1000 = 1 Second
+endmenu

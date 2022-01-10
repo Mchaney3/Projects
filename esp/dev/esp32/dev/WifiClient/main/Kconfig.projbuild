@@ -1,0 +1,32 @@
+menu "Mike's WiFi Configuration"
+
+    config ESP_WIFI_SSID
+        string "WiFi SSID"
+        default "chlabs_bot"
+        help
+            SSID (network name) for the example to connect to.
+
+    config ESP_WIFI_PASSWORD
+        string "WiFi Password"
+        default "chlabsrobotseverywhere"
+        help
+            WiFi password (WPA or WPA2) for the example to use.
+
+    config ESP_WIFI_SSID1
+        string "WiFi SSID"
+        default "chlabs_bot"
+        help
+            SSID (network name) for the example to connect to.
+
+    config ESP_WIFI_PASSWORD1
+        string "WiFi Password"
+        default "chlabsrobotseverywhere"
+        help
+            WiFi password (WPA or WPA2) for the example to use.
+
+    config ESP_MAXIMUM_RETRY
+        int "Maximum retry"
+        default 5
+        help
+            Set the Maximum retry to avoid station reconnecting to the AP unlimited when the AP is really inexistent.
+endmenu

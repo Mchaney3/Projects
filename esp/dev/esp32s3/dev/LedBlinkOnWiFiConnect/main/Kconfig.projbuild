@@ -1,0 +1,35 @@
+menu "Mike's WiFi Config"
+
+    config ESP_WIFI_SSID
+        string "WiFi SSID"
+        default "chlabs_bot"
+        help
+            SSID (network name) for the example to connect to.
+
+    config ESP_WIFI_PASSWORD
+        string "WiFi Password"
+        default "chlabsrobotseverywhere"
+        help
+            WiFi password (WPA or WPA2) for the example to use.
+
+    config ESP_MAXIMUM_RETRY
+        int "Maximum retry"
+        default 5
+        help
+            Set the Maximum retry to avoid station reconnecting to the AP unlimited when the AP is really inexistent.
+endmenu
+
+menu "Mike's Blinky Config"
+
+    config EXAMPLE_RMT_TX_GPIO
+        int "RMT TX GPIO"
+        default 48
+        help
+            Set the GPIO number used for transmitting the RMT signal.
+
+    config EXAMPLE_STRIP_LED_NUMBER
+        int "Number of LEDS in a strip"
+        default 1
+        help
+            A single RGB strip contains several LEDs.
+endmenu

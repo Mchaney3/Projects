@@ -1,0 +1,9 @@
+[submodule "WipIts/Source_Esp32/dev/WipIts/libraries/WS2812FX"]
+	path = WipIts/Source_Esp32/dev/WipIts/libraries/WS2812FX
+	url = https://github.com/kitesurfer1404/WS2812FX
+[submodule "WipIts/Source_Esp32/dev/WipIts/libraries/Adafruit_NeoPixel"]
+	path = WipIts/Source_Esp32/dev/WipIts/libraries/Adafruit_NeoPixel
+	url = https://github.com/adafruit/Adafruit_NeoPixel.git
+[submodule "arduino/libraries/ESP32-A2DP"]
+	path = arduino/libraries/ESP32-A2DP
+	url = https://github.com/pschatzmann/ESP32-A2DP
