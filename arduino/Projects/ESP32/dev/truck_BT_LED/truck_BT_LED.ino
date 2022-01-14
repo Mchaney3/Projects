@@ -13,17 +13,17 @@ BluetoothA2DPSink a2dp_sink;
 #include "credentials.h"
 
 #include <SPI.h>
-  #define HSPI_MISO   26
-  #define HSPI_MOSI   27
-  #define HSPI_SCLK   25
-  #define HSPI_SS     32
-  #define VSPI_MISO   MISO
-  #define VSPI_MOSI   MOSI
-  #define VSPI_SCLK   SCK
-  #define VSPI_SS     SS
+#define HSPI_MISO   26
+#define HSPI_MOSI   27
+#define HSPI_SCLK   25
+#define HSPI_SS     32
+#define VSPI_MISO   MISO
+#define VSPI_MOSI   MOSI
+#define VSPI_SCLK   SCK
+#define VSPI_SS     SS
 
 #if CONFIG_IDF_TARGET_ESP32S2
-#define VSPI FSPI
+  #define VSPI FSPI
 #endif
 
 static const int spiClk = 1000000; // 1 MHz
@@ -38,6 +38,20 @@ int incoming;
 
 #include <WS2812FX.h>
 #include "WipItsLED.h"
+
+/*******GPS TO BE USED
+ * #define GPS_TX 17
+ * #define GPS_RX 16
+ * 
+ * OR USE (AND LIKELY WHAT I SHOULD USE)
+ * 
+ * const int GPS_TX = 17;
+ * const int GPS_RX = 16;
+ * Serial1.begin(115200, 8N2, GPS_TX, GPS_RX);    I THINK!!!!
+ * 
+ * Or use software serial possibly. Whatevs
+ */
+
 
 TaskHandle_t btStream;
 TaskHandle_t wifi_Neo;

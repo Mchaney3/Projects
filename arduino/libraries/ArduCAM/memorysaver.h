@@ -12,8 +12,8 @@
 //#define OV3640_MINI_3MP
 //#define OV5642_MINI_5MP
 //#define OV5642_MINI_5MP_BIT_ROTATION_FIXED
-//#define OV2640_MINI_2MP_PLUS
-#define OV5642_MINI_5MP_PLUS
+#define OV2640_MINI_2MP_PLUS
+//#define OV5642_MINI_5MP_PLUS
 //#define OV5640_MINI_5MP_PLUS
 
 
@@ -42,5 +42,5 @@
 	//#define MT9T112_CAM
 	//#define MT9D112_CAM
 #endif 
-
+#define OV2640_CAM
 #endif	//_MEMORYSAVER_

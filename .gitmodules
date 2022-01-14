@@ -7,3 +7,6 @@
 [submodule "arduino/libraries/ESP32-A2DP"]
 	path = arduino/libraries/ESP32-A2DP
 	url = https://github.com/pschatzmann/ESP32-A2DP
+[submodule "arduino/libraries/UTFT4ArduCAM_SPI/Arduino-IRremote"]
+	path = arduino/libraries/UTFT4ArduCAM_SPI/Arduino-IRremote
+	url = https://github.com/Arduino-IRremote/Arduino-IRremote.git
