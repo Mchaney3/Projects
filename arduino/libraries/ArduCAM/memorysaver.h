@@ -12,13 +12,13 @@
 //#define OV3640_MINI_3MP
 //#define OV5642_MINI_5MP
 //#define OV5642_MINI_5MP_BIT_ROTATION_FIXED
-//#define OV2640_MINI_2MP_PLUS
+#define OV2640_MINI_2MP_PLUS
 //#define OV5642_MINI_5MP_PLUS
 //#define OV5640_MINI_5MP_PLUS
 
 
 //#define ARDUCAM_SHIELD_REVC	
-#define ARDUCAM_SHIELD_V2
+//#define ARDUCAM_SHIELD_V2
 
 
 //Step 2: Select one of the camera module, only one at a time
@@ -38,8 +38,8 @@
 	//#define MT9V111_CAM	
 	//#define MT9M001_CAM	
 	//#define MT9V034_CAM
-	//#define MT9M034_CAM
 	//#define MT9T112_CAM
 	//#define MT9D112_CAM
 #endif 
+
 #endif	//_MEMORYSAVER_

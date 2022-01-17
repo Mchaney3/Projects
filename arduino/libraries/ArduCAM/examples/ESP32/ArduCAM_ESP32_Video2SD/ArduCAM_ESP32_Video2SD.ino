@@ -43,7 +43,7 @@
 #endif
 #define pic_num 200
 #define rate 0x05
-const int CAM_POWER_ON = 10;
+const int CAM_POWER_ON = D10;
 //set pin 16 as the slave select for SPI:
 const int CS = 17;
 static int k = 0; 
@@ -307,3 +307,9 @@ Video2SD(SD,pname);
 k++;  
 delay(5000);
 }
+
+
+
+
+
+
