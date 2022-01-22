@@ -118,7 +118,7 @@
  * 3 - An external SPI driver derived from SdSpiBaseClass is always used.
  */
 #ifndef SPI_DRIVER_SELECT
-#define SPI_DRIVER_SELECT 0
+#define SPI_DRIVER_SELECT 2
 #endif  // SPI_DRIVER_SELECT
 /**
  * If USE_SPI_ARRAY_TRANSFER is non-zero and the standard SPI library is
@@ -215,7 +215,7 @@ typedef uint8_t SdCsPin_t;
  * getName() will return UTF-8 strings and printName() will write UTF-8 strings.
  */
 #ifndef USE_UTF8_LONG_NAMES
-#define USE_UTF8_LONG_NAMES 0
+#define USE_UTF8_LONG_NAMES 1
 #endif  // USE_UTF8_LONG_NAMES
 
 #if USE_UTF8_LONG_NAMES && !USE_LONG_FILE_NAMES
@@ -271,7 +271,7 @@ typedef uint8_t SdCsPin_t;
  * function is faster for AVR but may be slower for ARM and other processors.
  */
 #ifndef USE_SD_CRC
-#define USE_SD_CRC 0
+#define USE_SD_CRC 1
 #endif  // USE_SD_CRC
 //------------------------------------------------------------------------------
 /** If the symbol USE_FCNTL_H is nonzero, open flags for access modes O_RDONLY,
