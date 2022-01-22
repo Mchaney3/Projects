@@ -10,16 +10,20 @@ SemaphoreHandle_t xSemaphore = NULL;
 #include "BluetoothA2DPSink.h"
 BluetoothA2DPSink a2dp_sink;
 #include <WS2812FX.h>
-#include "BT_LED_IR.h"
 #include "soc/soc.h" //disable brownout problems
 #include "soc/rtc_cntl_reg.h"  //disable brownout problems
+#include "BT_LED_IR.h"
 
 void setup() {
   
   Serial.begin(115200);
-  delay(3000);
+  delay(1000);
   int cpuSpeed = getCpuFrequencyMhz();
-  Serial.println("Running at " + String(cpuSpeed) + "MHz");
+  // Just to know which program is running on my Arduino
+  Serial.println(F("START " __FILE__ " from " __DATE__ "\r\nUsing library version " VERSION_IRREMOTE));
+  Serial.println("CPU running at " + String(cpuSpeed) + "MHz");
+
+  
 
   xSemaphore = xSemaphoreCreateMutex();
   

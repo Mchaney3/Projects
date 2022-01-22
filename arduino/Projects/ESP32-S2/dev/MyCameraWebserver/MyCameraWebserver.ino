@@ -31,21 +31,13 @@
 #include "memorysaver.h"
 //#include "arducam_esp32s_camera.h"
 
-/*
-#define SD_CS_PIN = 34;
-#define SD_FAT_TYPE 0
-#define SPI_CLOCK SD_SCK_MHZ(50)
-#define SD_CONFIG SdioConfig(FIFO_SDIO)
-//#define SD_CONFIG SdSpiConfig(SD_CS_PIN)
-
-SdFat sd;
-*/
+SPIClass spiCAM(HSPI);
 File file;
 // Create a Serial output stream.
 ArduinoOutStream cout(Serial);
 //const int CAM_POWER_ON = D10;
 // set GPIO16 as the slave select :
-const int CS = 21;
+const int CS = 10;
 //Version 2,set GPIO0 as the slave select :
 char pname[20];
 //static int  index=0;
@@ -55,7 +47,6 @@ static int k = 0;
 uint8_t temp = 0, temp_last = 0;
 uint32_t length = 0;
 bool is_header = false;
-
 ArduCAM myCAM(OV2640, CS);
 
 char path[30];  //array for file path
@@ -127,6 +118,7 @@ void initArduCAM() {
   Serial.begin(115200);
   Serial.println(F("ArduCAM Starting!"));
   //initialize SPI:
+  spiCAM.begin(12,13,11,10); //CLK,MISO,MOIS,SS
   SPI.begin();
   if(!SD.begin(34)){
     //    WHY THE F NOT!
@@ -300,7 +292,7 @@ Serial.println(length, DEC);
   while ( length-- )
   {
     temp_last = temp;
-    temp =  SPI.transfer(0x00);
+    temp =  spiCAM.transfer(0x00);
     //Read JPEG data from FIFO
     if ( (temp == 0xD9) && (temp_last == 0xFF) ) //If find the end ,break while,
     {

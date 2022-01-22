@@ -24,14 +24,17 @@
 #define MAGENTA 0xF81F
 #define YELLOW  0xFFE0
 #define WHITE   0xFFFF
-#if HAS_SDIO_CLASS
+
 #define SD_CONFIG SdioConfig(FIFO_SDIO)
+#define SD_CONFIG SdSpiConfig(SD_CS_PIN, SHARED_SPI, SPI_CLOCK)
+/*
 #elif  ENABLE_DEDICATED_SPI
 #define SD_CONFIG SdSpiConfig(SD_CS_PIN, DEDICATED_SPI, SPI_CLOCK)
 #else  // HAS_SDIO_CLASS
 #define SD_CONFIG SdSpiConfig(SD_CS_PIN, SHARED_SPI, SPI_CLOCK)
-#endif  // HAS_SDIO_CLASS
-//  #define ESP32Serial Serial3   To be used later
+*/
+
+#define ESP32Serial Serial3
 
 uint32_t timer = millis();
 const uint8_t SD_CS_PIN = SS;
@@ -44,7 +47,7 @@ Adafruit_GPS GPS(&GPSSerial);
 LCDWIKI_KBV mylcd(ILI9486,40,38,39,44,41); //model,cs,cd,wr,rd,reset
 Adafruit_HMC5883_Unified mag = Adafruit_HMC5883_Unified(12345);
 sensors_event_t event; 
-//Servo myservo;  // create servo object to control a servo
+Servo espeye;  // create servo object to control a servo
 
 void displaySensorDetails(void)
 {
@@ -70,7 +73,7 @@ void setup() {
   Serial.begin(115200);
   // 9600 baud is the default rate for the Ultimate GPS
   GPS.begin(9600);
-  Serial.begin(9600);
+  ESP32Serial.begin(115200);
   Serial.println("HMC5883 Magnetometer Test"); Serial.println("");
   
   /* Initialise the sensor */
@@ -147,7 +150,6 @@ void setup() {
   mylcd.Set_Text_Mode(1);
   mylcd.Set_Text_colour(GREEN);
 
-  updateheadingDisplay();
 }
 
 void MaGnEtO() {
@@ -256,37 +258,7 @@ void loop() {
         Serial.println("Couldn't update log file\r\n");
       }
     }
-    updateheadingDisplay();
   }
-}
-
-void updateheadingDisplay() {
-  
-  mag.getEvent(&event);
-  float heading = atan2(event.magnetic.y, event.magnetic.x);
-  
-  // Once you have your heading, you must then add your 'Declination Angle', which is the 'Error' of the magnetic field in your location.
-  // Find yours here: http://www.magnetic-declination.com/
-  // Mine is: -13* 2' W, which is ~13 Degrees, or (which we need) 0.22 radians
-  // If you cannot find your Declination, comment out these two lines, your compass will be slightly off.
-  float declinationAngle = 0.22;
-  heading += declinationAngle;
-  
-  // Correct for when signs are reversed.
-  if(heading < 0)
-    heading += 2*PI;
-    
-  // Check for wrap due to addition of declination.
-  if(heading > 2*PI)
-    heading -= 2*PI;
-   
-  // Convert radians to degrees for readability.
-  float headingDegrees = heading * 180/M_PI; 
-  
-  Serial.print("Heading (degrees): "); Serial.println(headingDegrees);
-  mylcd.Set_Text_Back_colour(BLACK);
-  mylcd.Set_Text_Size(5);
-  mylcd.Print_Number_Int(headingDegrees, 220, 160, 0, ' ',16);
 }
 
 void updategpsDisplay() {
