@@ -39,7 +39,7 @@
 // For minimum flash size use these settings:
 // #define USE_FAT_FILE_FLAG_CONTIGUOUS 0
 // #define ENABLE_DEDICATED_SPI 0
-// #define USE_LONG_FILE_NAMES 0
+#define USE_LONG_FILE_NAMES 1
 // #define SDFAT_FILE_TYPE 1
 //
 // Options can be set in a makefile or an IDE like platformIO
@@ -71,7 +71,7 @@
 #ifndef SDFAT_FILE_TYPE
 #if defined(__AVR__) && FLASHEND < 0X8000
 // 32K AVR boards.
-#define SDFAT_FILE_TYPE 1
+#define SDFAT_FILE_TYPE 3
 #else  // defined(__AVR__) && FLASHEND < 0X8000
 // All other boards.
 #define SDFAT_FILE_TYPE 3
@@ -127,7 +127,7 @@
  * This may be faster for some boards.  Do not use this with AVR boards.
  */
 #ifndef USE_SPI_ARRAY_TRANSFER
-#define USE_SPI_ARRAY_TRANSFER 0
+#define USE_SPI_ARRAY_TRANSFER 1
 #endif  // USE_SPI_ARRAY_TRANSFER
 /**
  * SD maximum initialization clock rate.
@@ -228,7 +228,7 @@ typedef uint8_t SdCsPin_t;
  * after the first call.  Extra flash will be required.
  */
 #ifndef MAINTAIN_FREE_CLUSTER_COUNT
-#define MAINTAIN_FREE_CLUSTER_COUNT 0
+#define MAINTAIN_FREE_CLUSTER_COUNT 1
 #endif  // MAINTAIN_FREE_CLUSTER_COUNT
 //------------------------------------------------------------------------------
 /**
@@ -271,7 +271,7 @@ typedef uint8_t SdCsPin_t;
  * function is faster for AVR but may be slower for ARM and other processors.
  */
 #ifndef USE_SD_CRC
-#define USE_SD_CRC 1
+#define USE_SD_CRC 0
 #endif  // USE_SD_CRC
 //------------------------------------------------------------------------------
 /** If the symbol USE_FCNTL_H is nonzero, open flags for access modes O_RDONLY,
@@ -289,7 +289,7 @@ typedef uint8_t SdCsPin_t;
 // ARM gcc defines open flags.
 #define USE_FCNTL_H 1
 #elif defined(ESP32)
-#define USE_FCNTL_H 1
+#define USE_FCNTL_H 0
 #else  // defined(__AVR__)
 #define USE_FCNTL_H 0
 #endif  // defined(__AVR__)
@@ -317,7 +317,7 @@ typedef uint8_t SdCsPin_t;
  * Causes use of lots of heap in ARM.
  */
 #ifndef DESTRUCTOR_CLOSES_FILE
-#define DESTRUCTOR_CLOSES_FILE 0
+#define DESTRUCTOR_CLOSES_FILE 1
 #endif  // DESTRUCTOR_CLOSES_FILE
 //------------------------------------------------------------------------------
 /**
@@ -338,7 +338,7 @@ typedef uint8_t SdCsPin_t;
  * all data to be written to the SD.
  */
 #ifndef ENDL_CALLS_FLUSH
-#define ENDL_CALLS_FLUSH 0
+#define ENDL_CALLS_FLUSH 1
 #endif  // ENDL_CALLS_FLUSH
 //------------------------------------------------------------------------------
 /**
@@ -360,7 +360,7 @@ typedef uint8_t SdCsPin_t;
 #ifdef __arm__
 #define USE_SEPARATE_FAT_CACHE 1
 #else  // __arm__
-#define USE_SEPARATE_FAT_CACHE 0
+#define USE_SEPARATE_FAT_CACHE 1
 #endif  // __arm__
 //------------------------------------------------------------------------------
 /**
@@ -371,7 +371,7 @@ typedef uint8_t SdCsPin_t;
 #ifdef __arm__
 #define USE_EXFAT_BITMAP_CACHE 1
 #else  // __arm__
-#define USE_EXFAT_BITMAP_CACHE 0
+#define USE_EXFAT_BITMAP_CACHE 1
 #endif  // __arm__
 //------------------------------------------------------------------------------
 /**
@@ -404,6 +404,7 @@ typedef uint8_t SdCsPin_t;
 #if defined(__IMXRT1062__)
 #define HAS_SDIO_CLASS 1
 #endif  // defined(__IMXRT1062__)
+
 //------------------------------------------------------------------------------
 /**
  * Determine the default SPI configuration.

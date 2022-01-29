@@ -6,14 +6,6 @@ TFT_eSPI    tft0 = TFT_eSPI();         // Create object "tft"
 
 void avrc_metadata_callback(uint8_t data1, const uint8_t *data2) {
   Serial.printf("AVRC metadata rsp: attribute id 0x%x, %s\n", data1, data2);
-  tft0.fillScreen(TFT_BLACK);
-  tft0.setCursor(0, 0, 2);
-  tft0.setTextSize(1);
-  tft0.setTextFont(2);
-  tft0.setTextColor(TFT_GREEN,TFT_BLACK);
-  tft0.println(String(data1));
-//  tft0.setCursor(0, 40, 2);
-//  tft0.println(data2);
 }
 
 void read_data_stream(const uint8_t *data, uint32_t length)
@@ -39,9 +31,9 @@ void btTASK( void * pvParameters ){
     .tx_desc_auto_clear = true // avoiding noise in case of data unavailability
   };
   i2s_pin_config_t my_pin_config = {
-    .bck_io_num = 25,   //    BCK
-    .ws_io_num = 5,    //    LRCK
-    .data_out_num = 15,   //    DIN
+    .bck_io_num = 27,   //    BCK
+    .ws_io_num = 32,    //    LRCK
+    .data_out_num = 33,   //    DIN
     .data_in_num = I2S_PIN_NO_CHANGE
   };
   a2dp_sink.set_pin_config(my_pin_config);
